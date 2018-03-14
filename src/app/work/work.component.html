@@ -1,19 +1,11 @@
-<head>
-  <script src='/node_modules/tinymce/tinymce.min.js'></script>
-  <script>
-  tinymce.init({
-    selector: '#myelement'
-  });
-  </script>
-</head>
-
 <div class="container color-light">
-    <div class="col"> 
-        <form> 
-            Introduce your report with a html file: <input type="file" accept=".html" id="userFile"><br>
+    <div class="col">
+        <form>
+            Introduce your report with a html file:
+            <input type="file" accept=".html" id="userFile" (change)="loadFile(file)" #file /><br>
             <input type="button" value="Proceed" (click)="saveFile()">
         </form>
-        <textarea id="myelement">Here has to appear the html editor!</textarea>
+        <angular-tinymce [(ngModel)]="content"></angular-tinymce>
     </div>
 </div>
-    
+
