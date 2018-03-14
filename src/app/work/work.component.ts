@@ -7,16 +7,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkComponent implements OnInit {
 
-  input
+  filename: string;
+  content: string = 'Load a file to replace this sample text with its content...';
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  saveFile(){
-    this.input = (<HTMLInputElement>document.getElementById("userFile")).value;
-    alert(this.input);
+  loadFile(input) {
+    let file = input.files[0];
+    let reader = new FileReader();
 
+    reader.addEventListener('load', (event: any) => {
+      this.filename = file.name;
+      this.content = event.target.result;
+    }, false);
+
+    reader.readAsText(file);
+  }
+
+  saveFile(){
+    alert(this.content);
   }
 
 }
