@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 
 @Component({
   selector: 'app-work',
@@ -8,11 +12,21 @@ import { Component, OnInit } from '@angular/core';
 export class WorkComponent implements OnInit {
 
   filename: string;
+  url: string = 'Load an url to replace this sample text with its content...';
+  auxiliar: Observable<any>;
   content: string = 'Load a file to replace this sample text with its content...';
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
   ngOnInit() {
+  }
+
+  getUrl(url){
+    this.auxiliar = this.http.get<any>('url');
+  }
+
+  saveUrl(){
+    alert(this.auxiliar);
   }
 
   loadFile(input) {

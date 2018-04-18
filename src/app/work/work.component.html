@@ -3,9 +3,11 @@
         <form>
             Introduce your report with a html file:
             <input type="file" accept=".html" id="userFile" (change)="loadFile(file)" #file /><br>
-            <input type="button" value="Proceed" (click)="saveFile()">
+            <input type="button" value="Proceed" (click)="saveFile()"><br>
+            Introduce your report with its url:
+            <input type="url" id="userUrl" (change)="getUrl(url)" #url /><br>
+            <input type="button" value="Proceed" (click)="saveUrl()">
         </form>
         <angular-tinymce [(ngModel)]="content"></angular-tinymce>
     </div>
 </div>
-
