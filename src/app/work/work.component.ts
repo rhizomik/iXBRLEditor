@@ -22,7 +22,7 @@ export class WorkComponent implements OnInit {
   }
 
   getUrl(url){
-    this.auxiliar = this.http.get<any>('url');
+    this.auxiliar = this.http.get<any>(url).map(data => data.text());
   }
 
   saveUrl(){
