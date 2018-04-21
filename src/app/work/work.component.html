@@ -5,8 +5,8 @@
             <input type="file" accept=".html" id="userFile" (change)="loadFile(file)" #file /><br>
             <input type="button" value="Proceed" (click)="saveFile()"><br>
             Introduce your report with its url:
-            <input type="url" id="userUrl" (change)="getUrl(url)" #url /><br>
-            <input type="button" value="Proceed" (click)="saveUrl()">
+            <input type="url" id="userUrl" name="getTheUrl" [(ngModel)]="url"><br>
+            <input type="button" value="Proceed" (click)="getUrl()">
         </form>
         <angular-tinymce [(ngModel)]="content"></angular-tinymce>
     </div>

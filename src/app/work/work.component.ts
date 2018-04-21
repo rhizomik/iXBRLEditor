@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import { UrlService} from '../url.service';
 import 'rxjs/add/operator/map';
 
 
@@ -11,22 +12,39 @@ import 'rxjs/add/operator/map';
 })
 export class WorkComponent implements OnInit {
 
+  data: any;
   filename: string;
-  url: string = 'Load an url to replace this sample text with its content...';
-  auxiliar: Observable<any>;
+  url: string;
+  auxiliar: Observable <any>;
   content: string = 'Load a file to replace this sample text with its content...';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private urlService: UrlService) { }
 
   ngOnInit() {
   }
-
-  getUrl(url){
-    this.auxiliar = this.http.get<any>(url).map(data => data.text());
+  /*
+  private parseUrl(res: Response){
+    console.log(this.url);
+    this.data = res.text();
+    console.log(this.data);
+    this.content = this.data;
+    return this.data;
   }
 
-  saveUrl(){
-    alert(this.auxiliar);
+  getFileByUrl(res: Response){
+    console.log(this.url);
+    return this.http.get(this.url).map(this.parseUrl);
+  }
+  */
+
+  getUrl(){
+    this.urlService.getFileByUrl(this.url).subscribe(
+      res => {
+        this.content = res;
+        console.log(this.content);
+      },
+      err => console.error('Observer got an error: ' + err),
+      () => console.log('Observer got a complete notification'));
   }
 
   loadFile(input) {

@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { WorkComponent } from './work/work.component';
 
+import { UrlService } from './url.service';
+
 
 @NgModule({
   declarations: [
@@ -24,7 +26,7 @@ import { WorkComponent } from './work/work.component';
     TinyMceModule.forRoot(tinymceDefaultSettings()),
     HttpClientModule
   ],
-  providers: [],
+  providers: [ UrlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
