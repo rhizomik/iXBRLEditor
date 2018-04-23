@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import { UrlService} from '../url.service';
 import 'rxjs/add/operator/map';
 
+import { tinymceDefaultSettings } from 'angular-tinymce';
+import * as TinyMce from 'tinymce';
 
 @Component({
   selector: 'app-work',
@@ -18,7 +20,14 @@ export class WorkComponent implements OnInit {
   auxiliar: Observable <any>;
   content: string = 'Load a file to replace this sample text with its content...';
 
-  constructor(private http:HttpClient, private urlService: UrlService) { }
+  public customSettings: TinyMce.Settings | any;
+
+  constructor(private http:HttpClient, private urlService: UrlService) {
+    this.customSettings = tinymceDefaultSettings();
+    this.customSettings.toolbar = 'link | bullist numlist outdent indent';
+    this.customSettings.plugins = 'autoresize lists link';
+    this.customSettings.resize = 'both';
+  }
 
   ngOnInit() {
   }
