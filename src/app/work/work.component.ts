@@ -14,37 +14,21 @@ import * as TinyMce from 'tinymce';
 })
 export class WorkComponent implements OnInit {
 
-  data: any;
   filename: string;
   url: string;
-  auxiliar: Observable <any>;
   content: string = 'Load a file to replace this sample text with its content...';
 
   public customSettings: TinyMce.Settings | any;
 
-  constructor(private http:HttpClient, private urlService: UrlService) {
+  constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
     this.customSettings.toolbar = 'link | bullist numlist outdent indent';
-    this.customSettings.plugins = 'autoresize lists link';
+    this.customSettings.plugins = 'lists link autoresize noneditable';
     this.customSettings.resize = 'both';
   }
 
   ngOnInit() {
   }
-  /*
-  private parseUrl(res: Response){
-    console.log(this.url);
-    this.data = res.text();
-    console.log(this.data);
-    this.content = this.data;
-    return this.data;
-  }
-
-  getFileByUrl(res: Response){
-    console.log(this.url);
-    return this.http.get(this.url).map(this.parseUrl);
-  }
-  */
 
   getUrl(){
     this.urlService.getFileByUrl(this.url).subscribe(

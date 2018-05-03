@@ -26,7 +26,7 @@ import { UrlService } from './url.service';
     TinyMceModule.forRoot(tinymceDefaultSettings()),
     HttpClientModule
   ],
-  providers: [ UrlService],
+  providers: [UrlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

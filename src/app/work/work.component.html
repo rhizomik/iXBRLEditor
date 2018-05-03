@@ -8,6 +8,8 @@
             <input type="url" id="userUrl" name="getTheUrl" [(ngModel)]="url"><br>
             <input type="button" value="Proceed" (click)="getUrl()">
         </form>
-        <angular-tinymce [settings]="customSettings" [(ngModel)]="content"></angular-tinymce>
+        <div class="mceNonEditable">
+        <angular-tinymce  [settings]="customSettings" [(ngModel)]="content"></angular-tinymce>
+        </div>
     </div>
 </div>
