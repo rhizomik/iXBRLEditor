@@ -16,14 +16,17 @@ export class WorkComponent implements OnInit {
 
   filename: string;
   url: string;
+  auxiliar1: string = '<div class="mceNonEditable">' ;
+  auxiliar2: string = '</div>';
   content: string = 'Load a file to replace this sample text with its content...';
 
   public customSettings: TinyMce.Settings | any;
 
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
-    this.customSettings.toolbar = 'link | bullist numlist outdent indent';
-    this.customSettings.plugins = 'lists link autoresize noneditable';
+    this.customSettings.toolbar = 'link | bullist numlist outdent indent | fullscreen';
+    this.customSettings.menubar = "view";
+    this.customSettings.plugins = 'lists link autoresize noneditable fullscreen';
     this.customSettings.resize = 'both';
   }
 
@@ -33,7 +36,7 @@ export class WorkComponent implements OnInit {
   getUrl(){
     this.urlService.getFileByUrl(this.url).subscribe(
       res => {
-        this.content = res;
+        this.content = this.auxiliar1 + res + this.auxiliar2;
         console.log(this.content);
       },
       err => console.error('Observer got an error: ' + err),
@@ -46,7 +49,7 @@ export class WorkComponent implements OnInit {
 
     reader.addEventListener('load', (event: any) => {
       this.filename = file.name;
-      this.content = event.target.result;
+      this.content = this.auxiliar1 + event.target.result + this.auxiliar2;
     }, false);
 
     reader.readAsText(file);
