@@ -25,7 +25,6 @@ export class WorkComponent implements OnInit {
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
     this.customSettings.toolbar = 'link | bullist numlist outdent indent | fullscreen';
-    this.customSettings.menubar = "view";
     this.customSettings.plugins = 'lists link autoresize noneditable fullscreen';
     this.customSettings.resize = 'both';
   }
