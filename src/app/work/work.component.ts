@@ -30,8 +30,8 @@ export class WorkComponent implements OnInit {
           type:'button',
           text: 'tag',
           onclick: function(){
-            var node = editor.selection.getNode();
-            console.log(this.node);
+            const node = editor.selection.getNode();
+            console.log(node);
           }
         })
     }
