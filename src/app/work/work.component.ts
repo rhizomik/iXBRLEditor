@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
 import { UrlService} from '../url.service';
 import 'rxjs/add/operator/map';
 
@@ -16,9 +15,9 @@ export class WorkComponent implements OnInit {
 
   filename: string;
   url: string;
-  
+
   content: string = 'Load a file to replace this sample text with its content...';
-  
+
   public customSettings: TinyMce.Settings | any;
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
@@ -29,9 +28,19 @@ export class WorkComponent implements OnInit {
         editor.addButton('tag', {
           type:'button',
           text: 'tag',
-          onclick: function(){
-            const node = editor.selection.getNode();
-            console.log(node);
+          onclick: function() {
+            const selectedRange = editor.selection.getRng(true);
+            if (selectedRange.cloneContents().textContent.length > 0) {
+              const highlightNode = document.createElement("span");
+              highlightNode.style.cssText = "background-color: yellow";
+              try {
+                selectedRange.surroundContents(highlightNode);
+              } catch (e) {
+                alert("Sorry, select just one text piece to tag");
+              }
+            } else {
+              alert("Sorry, select some text to tag");
+            }
           }
         })
     }
