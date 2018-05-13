@@ -17,23 +17,29 @@ export class WorkComponent implements OnInit {
   url: string;
 
   content: string = 'Load a file to replace this sample text with its content...';
-
+  
   public customSettings: TinyMce.Settings | any;
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
     this.customSettings.toolbar = 'link | bullist numlist outdent indent | fullscreen | tag';
     this.customSettings.plugins = 'lists link autoresize fullscreen';
     this.customSettings.resize = 'both';
-    this.customSettings.setup =  function(editor: TinyMce.Editor) {
+    this.customSettings.setup =  function(editor: TinyMce.Editor) { 
         editor.addButton('tag', {
           type:'button',
           text: 'tag',
           onclick: function() {
             const selectedRange = editor.selection.getRng(true);
+            console.log(selectedRange);
             if (selectedRange.cloneContents().textContent.length > 0) {
               const highlightNode = document.createElement("span");
+              const xbrlNode = document.createElement("ix:nonfraction");
+              xbrlNode.setAttribute('id','xbrl');
+              xbrlNode.setAttribute('name', 'Pèrdues i Guanys: Import Net de la Xifra de Negocis');
+              xbrlNode.setAttribute('unit', 'EUR')
               highlightNode.style.cssText = "background-color: yellow";
               try {
+                selectedRange.surroundContents(xbrlNode);
                 selectedRange.surroundContents(highlightNode);
               } catch (e) {
                 alert("Sorry, select just one text piece to tag");
