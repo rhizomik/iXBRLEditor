@@ -17,7 +17,7 @@ export class WorkComponent implements OnInit {
   url: string;
 
   content: string = 'Load a file to replace this sample text with its content...';
-  
+
   public customSettings: TinyMce.Settings | any;
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
@@ -25,34 +25,67 @@ export class WorkComponent implements OnInit {
     this.customSettings.plugins = 'lists link autoresize fullscreen';
     this.customSettings.resize = 'both';
     this.customSettings.setup =  function(editor: TinyMce.Editor) { 
-        editor.addButton('tag', {
-          type:'button',
+      var auxiliar: string;
+      editor.addButton('tag', {
+          type:'menubutton',
           text: 'tag',
-          onclick: function() {
-            const selectedRange = editor.selection.getRng(true);
-            console.log(selectedRange);
-            if (selectedRange.cloneContents().textContent.length > 0) {
-              const highlightNode = document.createElement("span");
-              const xbrlNode = document.createElement("ix:nonfraction");
-              xbrlNode.setAttribute('id','xbrl');
-              xbrlNode.setAttribute('name', 'Pèrdues i Guanys: Import Net de la Xifra de Negocis');
-              xbrlNode.setAttribute('unit', 'EUR')
-              highlightNode.style.cssText = "background-color: yellow";
-              try {
-                selectedRange.surroundContents(xbrlNode);
-                selectedRange.surroundContents(highlightNode);
-              } catch (e) {
-                alert("Sorry, select just one text piece to tag");
+          menu: [{
+            text: 'Importe neto de la Cifra de Negocios',
+            onclick: function(){ 
+              this.auxiliar = 'Importe neto de la Cifra de Negocios';
+              const selectedRange = editor.selection.getRng(true);
+              if (selectedRange.cloneContents().textContent.length > 0) {
+                return this.doTagging(this.auxiliar, selectedRange);
+              } else {
+                alert("Sorry, select some text to tag");
               }
-            } else {
-              alert("Sorry, select some text to tag");
-            }
-          }
-        })
+              console.log(selectedRange);
+            }    
+          },{
+            text:'Variación de existencias de productos terminados y en curso de fabricación',
+            onclick: function(){ 
+              this.auxiliar = 'Variación de existencias de productos terminados y en curso de fabriación';
+              const selectedRange = editor.selection.getRng(true);
+              if (selectedRange.cloneContents().textContent.length > 0) {
+                return this.doTagging(this.auxiliar, selectedRange);
+              } else {
+                alert("Sorry, select some text to tag");
+              }
+              console.log(selectedRange);
+            }    
+          },{
+            text:'Trabajos realizados por la empresa para su activo',
+            onclick: function(){ 
+              this.auxiliar = 'Trabajos realizados por la empresa para su activo';
+              const selectedRange = editor.selection.getRng(true);
+              if (selectedRange.cloneContents().textContent.length > 0) {
+                return this.doTagging(this.auxiliar, selectedRange);
+              } else {
+                alert("Sorry, select some text to tag");
+              }
+              console.log(selectedRange);
+            }    
+          }]
+        });
+      }
     }
-  }
 
   ngOnInit() {
+  }
+
+  doTagging(aux, selected){
+    const highlightNode = document.createElement("span");
+    const xbrlNode = document.createElement("ix:nonfraction");
++     xbrlNode.setAttribute('id','xbrl');
++     xbrlNode.setAttribute('name', aux);
++     xbrlNode.setAttribute('unit', 'EUR')
+    highlightNode.style.cssText = "background-color: yellow";
+    try {
+      selected.surroundContents(xbrlNode);
+      selected.surroundContents(highlightNode);
+    } catch (e) {
+      alert("Sorry, select just one text piece to tag");
+    }
   }
 
   getUrl(){
