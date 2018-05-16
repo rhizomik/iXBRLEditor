@@ -4,10 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule} from '@angular/forms';
 import { TinyMceModule, tinymceDefaultSettings } from 'angular-tinymce';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { WorkComponent } from './work/work.component';
+
+import { UrlService } from './url.service';
 
 
 @NgModule({
@@ -21,8 +24,9 @@ import { WorkComponent } from './work/work.component';
     AppRoutingModule,
     FormsModule,
     TinyMceModule.forRoot(tinymceDefaultSettings()),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [UrlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
