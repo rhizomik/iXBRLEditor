@@ -35,7 +35,7 @@ export class WorkComponent implements OnInit {
               this.auxiliar = 'Importe neto de la Cifra de Negocios';
               const selectedRange = editor.selection.getRng(true);
               if (selectedRange.cloneContents().textContent.length > 0) {
-                return this.doTagging(this.auxiliar, selectedRange);
+                this.tagging(this.auxiliar, selectedRange);
               } else {
                 alert("Sorry, select some text to tag");
               }
@@ -47,7 +47,7 @@ export class WorkComponent implements OnInit {
               this.auxiliar = 'Variación de existencias de productos terminados y en curso de fabriación';
               const selectedRange = editor.selection.getRng(true);
               if (selectedRange.cloneContents().textContent.length > 0) {
-                return this.doTagging(this.auxiliar, selectedRange);
+                this.tagging(this.auxiliar, selectedRange);
               } else {
                 alert("Sorry, select some text to tag");
               }
@@ -59,7 +59,7 @@ export class WorkComponent implements OnInit {
               this.auxiliar = 'Trabajos realizados por la empresa para su activo';
               const selectedRange = editor.selection.getRng(true);
               if (selectedRange.cloneContents().textContent.length > 0) {
-                return this.doTagging(this.auxiliar, selectedRange);
+                this.tagging(this.auxiliar, selectedRange);
               } else {
                 alert("Sorry, select some text to tag");
               }
@@ -73,13 +73,14 @@ export class WorkComponent implements OnInit {
   ngOnInit() {
   }
 
-  doTagging(aux, selected){
+  tagging(aux, selected){
     const highlightNode = document.createElement("span");
     const xbrlNode = document.createElement("ix:nonfraction");
-+     xbrlNode.setAttribute('id','xbrl');
-+     xbrlNode.setAttribute('name', aux);
-+     xbrlNode.setAttribute('unit', 'EUR')
++   xbrlNode.setAttribute('id','xbrl');
++   xbrlNode.setAttribute('name', aux);
++   xbrlNode.setAttribute('unit', 'EUR')
     highlightNode.style.cssText = "background-color: yellow";
+    
     try {
       selected.surroundContents(xbrlNode);
       selected.surroundContents(highlightNode);
