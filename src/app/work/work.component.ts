@@ -14,77 +14,90 @@ import * as TinyMce from 'tinymce';
 export class WorkComponent {
   filename: string;
   url: string;
-  content: string = 'Load a file to replace this sample text with its content...';
+  content: string = 'Añade un documento para reemplazar esta muestra por su contenido...';
   customSettings: TinyMce.Settings | any;
   editor: TinyMce.Editor;
 
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
     this.customSettings.plugins = 'autoresize fullscreen contextmenu';
-    this.customSettings.resize = 'both';
-<<<<<<< HEAD
-    this.customSettings.setup =  function(editor: TinyMce.Editor) { 
-      var auxiliar: string;
-      editor.addButton('tag', {
-          type:'menubutton',
-          text: 'tag',
-          menu: [{
-            text: 'Importe neto de la Cifra de Negocios',
-            onclick: function(){ 
-              this.auxiliar = 'Importe neto de la Cifra de Negocios';
-              const selectedRange = editor.selection.getRng(true);
-              if (selectedRange.cloneContents().textContent.length > 0) {
-                this.tagging(this.auxiliar, selectedRange);
-              } else {
-                alert("Sorry, select some text to tag");
-              }
-              console.log(selectedRange);
-            }    
-          },{
-            text:'Variación de existencias de productos terminados y en curso de fabricación',
-            onclick: function(){ 
-              this.auxiliar = 'Variación de existencias de productos terminados y en curso de fabriación';
-              const selectedRange = editor.selection.getRng(true);
-              if (selectedRange.cloneContents().textContent.length > 0) {
-                this.tagging(this.auxiliar, selectedRange);
-              } else {
-                alert("Sorry, select some text to tag");
-              }
-              console.log(selectedRange);
-            }    
-          },{
-            text:'Trabajos realizados por la empresa para su activo',
-            onclick: function(){ 
-              this.auxiliar = 'Trabajos realizados por la empresa para su activo';
-              const selectedRange = editor.selection.getRng(true);
-              if (selectedRange.cloneContents().textContent.length > 0) {
-                this.tagging(this.auxiliar, selectedRange);
-              } else {
-                alert("Sorry, select some text to tag");
-              }
-              console.log(selectedRange);
-            }    
-          }]
-        });
-      }
-    }
-=======
+    //this.customSettings.resize = 'both';
+    this.customSettings.toolbar = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullscreen | howToTag';
     this.customSettings.contextmenu_never_use_native = true;
-    this.customSettings.contextmenu = 'negocio existencias';
+    this.customSettings.contextmenu = 'perdidasYGanancias balance';
     this.customSettings.setup = this.setupTinyMCE.bind(this);
   }
->>>>>>> origin
 
   setupTinyMCE(editor) {
     this.editor = editor;
-    this.editor.addMenuItem('negocio', {
-      text: 'Cifra de Negocios',
+    this.editor.addButton('howToTag',{
+      text:'Como añadir un tag?',
+      onclick: function(){
+        alert("Para añadir un tag -> 1)Subraya el valor del concepto que desea taggear 2)Click al botón derecho del ratón  3)Seleccionar el tag correspondiente al concepto");
+      }
+    });
+    this.editor.addMenuItem('perdidasYGanancias', {
+      text: 'Perdidas y Ganancias',
       menu: [{
-        text: 'Importe Neto',
-        onclick: this.tagSelection.bind(this, 'Cifra de Negocios Importe Neto')
-      },{
-        text: 'Importe Bruto',
-        onclick: this.tagSelection.bind(this, 'Cifra de Negocios Importe Bruto')
+        text:'Resultado de Explotación',
+        menu:[{
+          text: '1. Importe Neto de la Cifra de negocios',
+          onclick: this.tagSelection.bind(this, 'Importe Neto de la cifra de negocios')
+        },{
+          text:'2. Variación de existencias de productos terminados y en curso de fabricación',
+          onclick: this.tagSelection.bind(this, ' Variación de existencias de productos terminados y en curso de fabricación.')
+        },{
+          text:'3. Trabajos realizados por la empresa para su activo',
+          onclick: this.tagSelection.bind(this, 'Trabajos realizados por la empresa para su activo')
+        },{
+          text:'4. Aprovisionamientos',
+          onclick: this.tagSelection.bind(this, 'Aprovisionamientos')
+        },{
+          text:'5. Otros ingresos de explotación',
+          onclick: this.tagSelection.bind(this, 'Otros ingresos de explotación')
+        },{
+          text:'6. Gastos de personal',
+          onclick: this.tagSelection.bind(this, 'Gastos de personal')
+        },{
+          text:'7. Otros gastos de explotación',
+          onclick: this.tagSelection.bind(this, 'Otros gastos de explotación')
+        },{
+          text:'8. Amortización del inmovilizado',
+          onclick: this.tagSelection.bind(this, 'Amortización del inmovilizado')
+        },{
+          text:'9. Imputación de subvenciones de inmovilizado no financiero y otras',
+          onclick: this.tagSelection.bind(this, 'Imputación de subvenciones de inmovilizado no financiero y otras')
+        },{
+          text:'10.  Excesos de provisiones',
+          onclick: this.tagSelection.bind(this, 'Excesos de provisiones')
+        },{
+          text:'11. Deterioro y resultado por enajenaciones del inmovilizado',
+          onclick: this.tagSelection.bind(this, 'Deterioro y resultado por enajenaciones del inmovilizado')
+        }
+        ]},{
+        text:'Resultado Financiero',
+        menu: [{
+          text:'12. Ingresos financieros',
+          onclick: this.tagSelection.bind(this, 'Ingresos financieros')
+        },{
+          text:'13. Gastos financieros',
+          onclick: this.tagSelection.bind(this, 'Gastos financieros')
+        },{
+          text:'14. Variación de valor razonable en instrumentos financieros',
+          onclick: this.tagSelection.bind(this, 'Variación de valor razonable en instrumentos financieros')
+        },{
+          text:'15. Diferencias de cambio',
+          onclick: this.tagSelection.bind(this, 'Diferencias de cambio')
+        },{
+          text:'16. Deterioro y resultado por enajenaciones de instrumentos financieros',
+          onclick: this.tagSelection.bind(this, 'Deterioro y resultado por enajenaciones de instrumentos financieros')
+        }
+        ]},{
+        text: 'Resultado del Ejercicio',
+        menu:[{
+          text:'17. Impuestos sobre beneficios',
+          onclick: this.tagSelection.bind(this, 'Impuestos sobre beneficios')
+        }]       
       }]
     });
     this.editor.addMenuItem('existencias', {
@@ -96,22 +109,6 @@ export class WorkComponent {
     });
   }
 
-<<<<<<< HEAD
-  tagging(aux, selected){
-    const highlightNode = document.createElement("span");
-    const xbrlNode = document.createElement("ix:nonfraction");
-+   xbrlNode.setAttribute('id','xbrl');
-+   xbrlNode.setAttribute('name', aux);
-+   xbrlNode.setAttribute('unit', 'EUR')
-    highlightNode.style.cssText = "background-color: yellow";
-    
-    try {
-      selected.surroundContents(xbrlNode);
-      selected.surroundContents(highlightNode);
-    } catch (e) {
-      alert("Sorry, select just one text piece to tag");
-    }
-=======
   tagSelection(tagName) {
       const selectedRange = this.editor.selection.getRng(true);
       if (selectedRange.cloneContents().textContent.length > 0) {
@@ -125,12 +122,12 @@ export class WorkComponent {
           selectedRange.surroundContents(xbrlNode);
           selectedRange.surroundContents(highlightNode);
         } catch (e) {
-          alert('Sorry, select just one text piece to tag');
+          alert('Lo siento, selecciona solo un valor para taggear');
         }
       } else {
-        alert("Sorry, select some text to tag");
+        alert("Lo siento, selecciona algun valor para taggear");
       }
->>>>>>> origin
+      console.log(selectedRange);
   }
 
   getUrl(){
@@ -139,8 +136,8 @@ export class WorkComponent {
         this.content = res;
         console.log(this.content);
       },
-      err => console.error('Observer got an error: ' + err),
-      () => console.log('Observer got a complete notification'));
+      err => console.error('Error en el observador: ' + err),
+      () => console.log('El observador ha obtenido una notificacion completa'));
   }
 
   loadFile(input) {
@@ -154,9 +151,4 @@ export class WorkComponent {
 
     reader.readAsText(file);
   }
-
-  saveFile(){
-    alert(this.content);
-  }
-
 }

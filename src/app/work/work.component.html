@@ -1,12 +1,11 @@
 <div class="container color-light">
     <div class="col">
         <form>
-            Introduce your report with a html file:
+            Introduce su documento contable (archivo html):
             <input type="file" accept=".html" id="userFile" (change)="loadFile(file)" #file /><br>
-            <input type="button" value="Proceed" (click)="saveFile()"><br>
-            Introduce your report with its url:
+            Introduce su documento contable (via URL):
             <input type="url" id="userUrl" name="getTheUrl" [(ngModel)]="url"><br>
-            <input type="button" value="Proceed" (click)="getUrl()">
+            <input type="button" value="Insertar" (click)="getUrl()">
         </form>
         <angular-tinymce [settings]="customSettings" [(ngModel)]="content"></angular-tinymce>
     </div>
