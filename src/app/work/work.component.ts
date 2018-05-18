@@ -17,18 +17,19 @@ export class WorkComponent {
   content: string = 'Añade un documento para reemplazar esta muestra por su contenido...';
   customSettings: TinyMce.Settings | any;
   editor: TinyMce.Editor;
-
+  auxMoneda: string;
   constructor(private http:HttpClient, private urlService:UrlService) {
     this.customSettings = tinymceDefaultSettings();
     this.customSettings.plugins = 'autoresize fullscreen contextmenu';
     //this.customSettings.resize = 'both';
-    this.customSettings.toolbar = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullscreen | howToTag';
+    this.customSettings.toolbar = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | fullscreen | howToTag moneda';
     this.customSettings.contextmenu_never_use_native = true;
-    this.customSettings.contextmenu = 'perdidasYGanancias balance';
+    this.customSettings.contextmenu = 'perdidasYGanancias';
     this.customSettings.setup = this.setupTinyMCE.bind(this);
   }
 
-  setupTinyMCE(editor) {
+  setupTinyMCE(editor){
+    this.auxMoneda = 'EUR' //Aqui si que troba la variable de workComponent
     this.editor = editor;
     this.editor.addButton('howToTag',{
       text:'Como añadir un tag?',
@@ -36,8 +37,23 @@ export class WorkComponent {
         alert("Para añadir un tag -> 1)Subraya el valor del concepto que desea taggear 2)Click al botón derecho del ratón  3)Seleccionar el tag correspondiente al concepto");
       }
     });
+    this.editor.addButton('moneda',{
+      type:'listbox',
+      text:'Moneda',
+      onselect: function(){
+        this.auxMoneda = this.value(); //Aqui no troba la variable de workComponent
+      },
+      values:[
+        {text:'Moneda: Dolares ($)', value:'USD'},
+        {text:'Moneda: Euros (€)', value:'EUR'},
+        {text:'Moneda: Libras (£)', value:'GBP'}
+      ],
+      onPostRender: function(){
+        this.value('EUR');
+      }
+    });
     this.editor.addMenuItem('perdidasYGanancias', {
-      text: 'Perdidas y Ganancias',
+      text: 'Pérdidas y Ganancias',
       menu: [{
         text:'Resultado de Explotación',
         menu:[{
@@ -45,7 +61,7 @@ export class WorkComponent {
           onclick: this.tagSelection.bind(this, 'Importe Neto de la cifra de negocios')
         },{
           text:'2. Variación de existencias de productos terminados y en curso de fabricación',
-          onclick: this.tagSelection.bind(this, ' Variación de existencias de productos terminados y en curso de fabricación.')
+          onclick: this.tagSelection.bind(this, ' Variación de existencias de productos terminados y en curso de fabricación')
         },{
           text:'3. Trabajos realizados por la empresa para su activo',
           onclick: this.tagSelection.bind(this, 'Trabajos realizados por la empresa para su activo')
@@ -100,13 +116,6 @@ export class WorkComponent {
         }]       
       }]
     });
-    this.editor.addMenuItem('existencias', {
-      text: 'Variación de Existencias',
-      menu: [{
-        text: 'De Productos Terminados y en Curso de Fabricación',
-        onclick: this.tagSelection.bind(this, 'Variación de Existencias de Productos Terminados y en Curso de Fabricación')
-      }]
-    });
   }
 
   tagSelection(tagName) {
@@ -116,7 +125,7 @@ export class WorkComponent {
         const xbrlNode = document.createElement('ix:nonfraction');
         xbrlNode.setAttribute('id', 'xbrl');
         xbrlNode.setAttribute('name', tagName);
-        xbrlNode.setAttribute('unit', 'EUR');
+        xbrlNode.setAttribute('unit', this.auxMoneda);
         highlightNode.style.cssText = 'background-color: yellow';
         try {
           selectedRange.surroundContents(xbrlNode);
