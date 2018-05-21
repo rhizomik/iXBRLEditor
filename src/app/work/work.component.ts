@@ -29,7 +29,8 @@ export class WorkComponent {
   }
 
   setupTinyMCE(editor){
-    this.auxMoneda = 'EUR' //Aqui si que troba la variable de workComponent
+    var that = this;
+    this.auxMoneda = 'EUR';
     this.editor = editor;
     this.editor.addButton('howToTag',{
       text:'Como añadir un tag?',
@@ -40,8 +41,8 @@ export class WorkComponent {
     this.editor.addButton('moneda',{
       type:'listbox',
       text:'Moneda',
-      onselect: function(){
-        this.auxMoneda = this.value(); //Aqui no troba la variable de workComponent
+      onselect: function() {
+        that.auxMoneda = this.value();
       },
       values:[
         {text:'Moneda: Dolares ($)', value:'USD'},
@@ -113,7 +114,7 @@ export class WorkComponent {
         menu:[{
           text:'17. Impuestos sobre beneficios',
           onclick: this.tagSelection.bind(this, 'Impuestos sobre beneficios')
-        }]       
+        }]
       }]
     });
   }
