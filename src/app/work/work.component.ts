@@ -37,7 +37,7 @@ export class WorkComponent {
     this.editor.addButton('howToTag',{
       text:'Como añadir un tag?',
       onclick: function(){
-        alert("Para añadir un tag -> 1)Subraya el valor del concepto que desea taggear 2)Click al botón derecho del ratón  3)Seleccionar el tag correspondiente al concepto");
+        alert("Para añadir un tag -> 0) Seleccione la moneda y el periodo sobre el cual trabaja este documento  1)Subraya el valor del concepto que desea taggear 2)Click al botón derecho del ratón  3)Seleccionar el tag correspondiente al concepto");
       }
     });
     this.editor.addButton('periodo',{
